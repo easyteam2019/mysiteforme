@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.mysiteforme.admin.dao")
 public class MysiteformeApplication extends SpringBootServletInitializer {
 
+	//这是一个注释!!
 //	@Override
 //	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 //		return application.sources(MysiteformeApplication.class);
