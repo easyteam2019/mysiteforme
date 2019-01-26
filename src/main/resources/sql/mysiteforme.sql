@@ -1218,16 +1218,6 @@ INSERT INTO `upload_info` VALUES ('1', null, null, null, null, null, null, null,
 
 
 
-
-
-
-
-
-
-
-
-
-
 -- ----------------------------
 -- Table structure for eb_eno
 -- add by lht 20190126
