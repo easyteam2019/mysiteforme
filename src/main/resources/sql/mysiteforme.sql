@@ -1213,3 +1213,41 @@ CREATE TABLE `upload_info` (
 -- Records of upload_info
 -- ----------------------------
 INSERT INTO `upload_info` VALUES ('1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '2018-07-12 18:48:23', '1', '2018-07-12 18:48:25', '1', null, '0');
+
+
+
+
+
+
+
+
+-- ----------------------------
+-- Table structure for eb_eno
+-- add by lht 20190126
+-- ----------------------------
+DROP TABLE IF EXISTS `eb_eno`;
+CREATE TABLE `eb_eno` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `eno` varchar(255)  COMMENT '快递编号',
+  `snation` varchar(100)  COMMENT '寄件国家编号',
+  `sprovince` varchar(100)  COMMENT '寄件省份编号',
+  `scity` varchar(100)  COMMENT '寄件城市编号',
+  `scounty` varchar(100)  COMMENT '寄件县/区编号',
+  `saddress1` varchar(255)  COMMENT '寄件地址1',
+  `saddress2` varchar(255) COMMENT '寄件地址2',
+  `rnation` varchar(100) COMMENT '收件国家编号',
+  `rprovince` varchar(100)  COMMENT '收件省份编号',
+  `rcity` varchar(100) COMMENT '收件城市编号',
+  `rcounty` varchar(100)  COMMENT '收件县/区编号',
+  `raddress1` varchar(255)  COMMENT '收件地址1',
+  `raddress2` varchar(255)  COMMENT '收件地址2',
+  `status` varchar(2) COMMENT '状态（0无效，1有效）',
+  `sendstatus` varchar(2) COMMENT '寄件状态（0未寄送，1已发送）',
+  `createdate` datetime COMMENT '创建时间',
+  `creatopt` varchar(100) COMMENT '创建人',
+  `updatedate` datetime COMMENT '更新时间',
+  `updateopt` varchar(100) COMMENT '更新人',
+  `level` varchar(2) COMMENT '快递号码等级',
+   `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='快递编号主信息表';
