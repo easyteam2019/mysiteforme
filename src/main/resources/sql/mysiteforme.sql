@@ -1248,4 +1248,3 @@ CREATE TABLE `eb_eno` (
    `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='快递编号主信息表';
-
