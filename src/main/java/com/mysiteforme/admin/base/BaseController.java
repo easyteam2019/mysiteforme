@@ -7,7 +7,7 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BaseController {
-	
+
 	public User getCurrentUser() {
 		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		if(shiroUser == null) {

@@ -32,15 +32,15 @@
 <body class="childrenBody">
 <form class="layui-form" style="width:80%;">
     <div class="layui-form-item">
-        <label class="layui-form-label">标签名字</label>
+        <label class="layui-form-label">快递单号</label>
         <div class="layui-input-block">
 
-            <input  type="text"  class="layui-input" name="name"  placeholder="请输入标签名字">
+            <input  type="text"  class="layui-input" name="eno"  placeholder="请输入快递单号">
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="addBlogTags">立即提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="addEno">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -53,15 +53,15 @@
                 layer = layui.layer;
 
 
-        form.on("submit(addBlogTags)",function(data){
+        form.on("submit(addEno)",function(data){
 
             var loadIndex = layer.load(2, {
                 shade: [0.3, '#333']
             });
-            $.post("${base}/admin/blogTags/add",data.field,function(res){
+            $.post("${base}/admin/ebag/eno/add",data.field,function(res){
                 layer.close(loadIndex);
                 if(res.success){
-                    parent.layer.msg("博客标签添加成功！",{time:1000},function(){
+                    parent.layer.msg("快递单号添加成功！",{time:1000},function(){
                         parent.layer.close(parent.addIndex);
                         //刷新父页面
                         parent.location.reload();

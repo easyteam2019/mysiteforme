@@ -52,6 +52,7 @@
 			<!--<scope>provided</scope>-->
 		<!--</dependency>-->
 
+		<!-- spring and mysql diver dependency start -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
@@ -284,6 +285,13 @@
 					<artifactId>solr-core</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<!--lombok工具-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.10</version>
 		</dependency>
 	</dependencies>
 

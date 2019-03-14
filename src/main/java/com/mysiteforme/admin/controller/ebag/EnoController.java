@@ -9,8 +9,9 @@ import com.mysiteforme.admin.annotation.SysLog;
 import com.mysiteforme.admin.base.BaseController;
 import com.mysiteforme.admin.entity.BlogArticle;
 import com.mysiteforme.admin.entity.BlogChannel;
-import com.mysiteforme.admin.entity.BlogTags;
+import com.mysiteforme.admin.entity.Eno;
 import com.mysiteforme.admin.entity.VO.ZtreeVO;
+import com.mysiteforme.admin.service.EnoService;
 import com.mysiteforme.admin.util.LayerData;
 import com.mysiteforme.admin.util.RestResponse;
 import com.xiaoleilu.hutool.date.DateUtil;
@@ -18,12 +19,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +44,14 @@ import java.util.Map;
 public class EnoController extends BaseController{
     private static final Logger LOGGER = LoggerFactory.getLogger(EnoController.class);
 
+
+
+
+    @Autowired
+    protected EnoService enoService;
+
     @GetMapping("list")
-    @SysLog("跳转博客内容列表")
+    @SysLog("跳转快递单号管理列表")
     public String list(){
         return "/admin/ebag/eno/list";
     }
@@ -97,59 +106,24 @@ public class EnoController extends BaseController{
     }
 
     @GetMapping("add")
-    public String add(@RequestParam(value = "channelId",required = false)Long channelId, Model model){
-        BlogChannel blogChannel = blogChannelService.selectById(channelId);
-        if(blogChannel != null){
-            model.addAttribute("channel",blogChannel);
-        }
-        List<ZtreeVO> list = blogChannelService.selectZtreeData();
-        model.addAttribute("ztreeData", JSONObject.toJSONString(list));
-        List<BlogTags> blogTags = blogTagsService.listAll();
-        model.addAttribute("taglist",blogTags);
+    public String add(){
         return "/admin/ebag/eno/add";
     }
 
+
     @RequiresPermissions("ebag:eno:add")
     @PostMapping("add")
-    @SysLog("保存新增博客内容数据")
+    @SysLog("保存快递单号数据")
     @ResponseBody
-    public RestResponse add(@RequestBody BlogArticle blogArticle){
-        if(StringUtils.isBlank(blogArticle.getTitle())){
-            return RestResponse.failure("标题不能为空");
-        }
-        if(StringUtils.isBlank(blogArticle.getContent())){
-            return RestResponse.failure("内容不能为空");
-        }
-        if(blogArticle.getChannelId() == null){
-            return RestResponse.failure("栏目ID不能为空");
-        }
-        Object o = blogArticleService.selectObj(Condition.create()
-                .setSqlSelect("max(sort)")
-                .eq("channel_id",blogArticle.getChannelId())
-                .eq("del_flag",false));
-        int sort = 0;
-        if(o != null){
-            sort =  (Integer)o +1;
-        }
-        blogArticle.setSort(sort);
-        blogArticleService.saveOrUpdateArticle(blogArticle);
-        if(blogArticle.getBlogTags() != null && blogArticle.getBlogTags().size()>0){
-            Map<String,Object> map = Maps.newHashMap();
-            map.put("articleId",blogArticle.getId());
-            map.put("tags",blogArticle.getBlogTags());
-            blogArticleService.saveArticleTags(map);
-        }
+    public RestResponse add(Eno eno){
+
+        enoService.saveEno(eno);
         return RestResponse.success();
     }
 
     @GetMapping("edit")
     public String edit(Long id,Model model){
-        BlogArticle blogArticle = blogArticleService.selectOneDetailById(id);
-        model.addAttribute("blogArticle",blogArticle);
-        List<ZtreeVO> list = blogChannelService.selectZtreeData();
-        model.addAttribute("ztreeData", JSONObject.toJSONString(list));
-        List<BlogTags> blogTags = blogTagsService.listAll();
-        model.addAttribute("taglist",blogTags);
+
         return "/admin/ebag/eno/edit";
     }
 
@@ -201,5 +175,4 @@ public class EnoController extends BaseController{
         blogArticleService.createArticlIndex();
         return RestResponse.success();
     }
-
 }
