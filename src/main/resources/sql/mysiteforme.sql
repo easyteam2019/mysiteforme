@@ -1238,13 +1238,16 @@ CREATE TABLE `eb_eno` (
   `rcounty` varchar(100)  COMMENT '收件县/区编号',
   `raddress1` varchar(255)  COMMENT '收件地址1',
   `raddress2` varchar(255)  COMMENT '收件地址2',
-  `status` varchar(2) COMMENT '状态（0无效，1有效）',
-  `sendstatus` varchar(2) COMMENT '寄件状态（0未寄送，1已发送）',
-  `createdate` datetime COMMENT '创建时间',
-  `creatopt` varchar(100) COMMENT '创建人',
-  `updatedate` datetime COMMENT '更新时间',
-  `updateopt` varchar(100) COMMENT '更新人',
+  `sendstatus` varchar(2) COMMENT '寄件状态（0未寄送，1已出单）',
   `level` varchar(2) COMMENT '快递号码等级',
-   `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by` bigint(20) DEFAULT NULL COMMENT '创建人',
+  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `update_by` bigint(20) DEFAULT NULL COMMENT '修改人',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '备注',
+  `order` varchar(255) DEFAULT NULL COMMENT '订单号',
+  `printdate` datetime DEFAULT NULL COMMENT '出单日期',
+  `del_flag` tinyint(4) DEFAULT NULL COMMENT '删除标记',
+
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='快递编号主信息表';

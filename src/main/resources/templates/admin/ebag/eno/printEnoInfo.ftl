@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>博客标签添加--${site.name}</title>
+    <title>快递单号打印--${site.name}</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -30,43 +30,35 @@
     </style>
 </head>
 <body class="childrenBody">
-<form class="layui-form  layui-form-pane">
+<form class="layui-form" style="width:80%;">
+    <input value="${eno.id}" name="id" type="hidden">
     <div class="layui-form-item">
         <label class="layui-form-label">快递单号</label>
         <div class="layui-input-block">
-            <input  type="text"  class="layui-input" name="eno"  placeholder="请输入快递单号">
+            <input  type="text"  class="layui-input" name="eno" value="${eno.eno}" readonly="readonly" >
+            <!-- readonly="readonly" -->
         </div>
     </div>
 
-    <!----
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">单号日期</label>
-            <div class="layui-input-block" style='width:190px'>
-                <input type="text" name="date" id="date1" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
-    -->
-
-    <div class="layui-form-item">
+      <div class="layui-form-item">
         <div class="layui-row">
             <div class="layui-col-md12">
                 <!-- 寄件地址国家默认中国 -->
                 <input value="CHN" name="snation" type="hidden">
                 <label class="layui-form-label">寄件地址</label>
                 <div class="layui-input-inline">
-                    <select name="sprovince" id="sprovince" lay-filter="sprovince">
+                    <select name="sprovince" id="sprovince" lay-filter="sprovince"  disabled="true">
+                        <!--   disabled="true" -->
                         <option value="">请选择省</option>
                     </select>
                 </div>
                 <div class="layui-input-inline">
-                    <select name="scity" id="scity" lay-filter="scity">
+                    <select name="scity" id="scity" lay-filter="scity" disabled="true">
                         <option value="">请选择市</option>
                     </select>
                 </div>
                 <div class="layui-input-inline">
-                    <select name="scounty" id="scounty" lay-filter="scounty">
+                    <select name="scounty" id="scounty"  lay-filter="scounty"  disabled="true">
                         <option value="">请选择县/区</option>
                     </select>
                 </div>
@@ -80,7 +72,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"></label>
                     <div class="layui-input-block">
-                        <input  type="text"  class="layui-input" name="saddress1"  placeholder="请填写详细寄件地址">
+                        <input  type="text"  class="layui-input"  value="${eno.saddress1}" name="saddress1" readonly="readonly"  >
                     </div>
                 </div>
             </div>
@@ -94,17 +86,17 @@
                 <input value="CHN" name="rnation" type="hidden">
                 <label class="layui-form-label">收件地址</label>
                 <div class="layui-input-inline">
-                    <select name="rprovince" id="rprovince" lay-filter="rprovince">
+                    <select name="rprovince" id="rprovince" lay-filter="rprovince"   disabled="true">
                         <option value="">请选择省</option>
                     </select>
                 </div>
                 <div class="layui-input-inline">
-                    <select name="rcity" id="rcity" lay-filter="rcity">
+                    <select name="rcity" id="rcity" lay-filter="rcity"    disabled="true">
                         <option value="">请选择市</option>
                     </select>
                 </div>
                 <div class="layui-input-inline">
-                    <select name="rcounty" id="rcounty" lay-filter="rcounty">
+                    <select name="rcounty" id="rcounty" lay-filter="rcounty"   disabled="true">
                         <option value="">请选择县/区</option>
                     </select>
                 </div>
@@ -118,23 +110,40 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"></label>
                     <div class="layui-input-block">
-                        <input  type="text"  class="layui-input" name="raddress1"  placeholder="请填写详细收件地址">
+                        <input  type="text"  class="layui-input" value="${eno.raddress1}" name="raddress1"  readonly="readonly" >
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-     <!--出单状态：0=未使用，1=已出单-->
-     <input value="0" name="sendstatus" type="hidden">
-     <div class="layui-form-item">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">订单号</label>
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="addEno">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <input  type="text"  class="layui-input" name="order" value="${eno.order}"    readonly="readonly">
         </div>
     </div>
+
+    <div class="layui-form-item">
+        <!--出单状态：0=未使用，1=已出单-->
+        <label class="layui-form-label">出单备注</label>
+        <div class="layui-input-block">
+            <input  type="text"  class="layui-input" name="remarks" value="${eno.remarks}"   readonly="readonly">
+        </div>
+    </div>
+
+    <!---出单日期--->
+   <div class="layui-form-item">
+       <div class="layui-inline">
+           <label class="layui-form-label">出单日期</label>
+           <div class="layui-input-block" style='width:190px'>
+               <input type="text"  class="layui-input" name="printdate" value="${eno.printdate}" readonly="readonly">
+           </div>
+       </div>
+   </div>
+
 </form>
-<script type="text/javascript" src="${base}/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="${base}/static/layui/layui.js"></script>
 <script>
     layui.use(['form','jquery','layer','laydate'],function(){
@@ -143,44 +152,13 @@
                 layer = layui.layer,
                 laydate = layui.laydate;
 
-
-        form.on("submit(addEno)",function(data){
-
-            //测试地址级联翻译
-            //var adds = dicAddress('110000','110100','110106');
-
-
-            var loadIndex = layer.load(2, {
-                shade: [0.3, '#333']
-            });
-            $.post("${base}/admin/ebag/eno/add",data.field,function(res){
-                layer.close(loadIndex);
-                if(res.success){
-                    parent.layer.msg("快递单号添加成功！",{time:1000},function(){
-                        parent.layer.close(parent.addIndex);
-                        //刷新父页面
-                        parent.location.reload();
-                    });
-                }else{
-                    layer.msg(res.message);
-                }
-            });
-            return false;
-        });
-
-        //初始化日期元素
-        //laydate.render({
-        //    elem: '#date1',
-        //    value:new Date()
-        //});
-
         var saddress = {
             s1: 'sprovince',
             s2: 'scity',
             s3: 'scounty',
-            v1: null,
-            v2: null,
-            v3: null
+            v1: ${eno.sprovince},
+            v2: ${eno.scity},
+            v3: ${eno.scounty}
         };
         treeSelect(saddress);
 
@@ -188,14 +166,22 @@
             s1: 'rprovince',
             s2: 'rcity',
             s3: 'rcounty',
-            v1: null,
-            v2: null,
-            v3: null
+            v1: ${eno.rprovince},
+            v2: ${eno.rcity},
+            v3: ${eno.rcounty}
         };
         treeSelect(raddress);
 
-    });
+        //初始化日期元素
+        //laydate.render({
+        //    elem: '#printdate',
+        //    type:'datetime',
+        //    <#if (eno.printdate)??>
+        //    value: '${eno.printdate?string("yyyy-MM-dd")}'
+        //    </#if>
+        //})
 
+    });
 
 </script>
 <script type="text/javascript" src="${base}/static/layui/assets/data.js"></script>

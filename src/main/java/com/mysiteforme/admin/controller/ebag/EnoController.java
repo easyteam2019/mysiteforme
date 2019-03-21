@@ -1,20 +1,13 @@
 package com.mysiteforme.admin.controller.ebag;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.mapper.Condition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.google.common.collect.Maps;
 import com.mysiteforme.admin.annotation.SysLog;
 import com.mysiteforme.admin.base.BaseController;
-import com.mysiteforme.admin.entity.BlogArticle;
-import com.mysiteforme.admin.entity.BlogChannel;
 import com.mysiteforme.admin.entity.Eno;
-import com.mysiteforme.admin.entity.VO.ZtreeVO;
 import com.mysiteforme.admin.service.EnoService;
 import com.mysiteforme.admin.util.LayerData;
 import com.mysiteforme.admin.util.RestResponse;
-import com.xiaoleilu.hutool.date.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -26,87 +19,97 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
  * <p>
- * 博客内容  前端控制器
+ * 快递单号前端控制器
  * </p>
  *
- * @author wangl
+ * @author liao
  * @since 2018-01-19
  */
 @Controller
 @RequestMapping("/admin/ebag/eno")
-public class EnoController extends BaseController{
+public class EnoController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(EnoController.class);
 
 
-
-
-    @Autowired
-    protected EnoService enoService;
-
     @GetMapping("list")
     @SysLog("跳转快递单号管理列表")
-    public String list(){
+    public String list() {
         return "/admin/ebag/eno/list";
     }
 
     @RequiresPermissions("ebag:eno:list")
     @PostMapping("list")
     @ResponseBody
-    public LayerData<BlogArticle> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
-                                      @RequestParam(value = "limit",defaultValue = "10")Integer limit,
-                                      ServletRequest request){
-        Map<String,Object> map = WebUtils.getParametersStartingWith(request, "s_");
-        LayerData<BlogArticle> layerData = new LayerData<>();
-        EntityWrapper<BlogArticle> wrapper = new EntityWrapper<>();
-        wrapper.eq("del_flag",false);
-        if(!map.isEmpty()){
-            String title = (String) map.get("title");
-            if(StringUtils.isBlank(title)) {
-                map.remove("title");
-            }
-            String category = (String) map.get("category");
-            if(StringUtils.isBlank(category)) {
-                map.remove("category");
-            }
-            String beginPublistTime = (String) map.get("beginPublistTime");
-            String endPublistTime = (String) map.get("endPublistTime");
-            if(StringUtils.isNotBlank(beginPublistTime)) {
-                Date begin = DateUtil.parse(beginPublistTime);
-                map.put("publist_time",begin);
-            }else{
-                map.remove("beginPublistTime");
-            }
-            if(StringUtils.isNotBlank(endPublistTime)) {
-                Date end = DateUtil.parse(endPublistTime);
-                map.put("publist_time",end);
-            }else{
-                map.remove("endPublistTime");
-            }
-            String content = (String) map.get("content");
-            if(StringUtils.isBlank(content)) {
-                map.remove("content");
-            }
-            String channelId = (String) map.get("channelId");
-            if(StringUtils.isBlank(channelId)){
-                map.remove("channelId");
+    public LayerData<Eno> list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                               @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+                               ServletRequest request) {
+        Map<String, Object> map = WebUtils.getParametersStartingWith(request, "s_");
+        LayerData<Eno> layerData = new LayerData<>();
+        EntityWrapper<Eno> wrapper = new EntityWrapper<>();
+        //wrapper.eq("del_flag",false);
+        if (!map.isEmpty()) {
+            String eno = (String) map.get("eno");
+            if (StringUtils.isNotBlank(eno)) {
+                wrapper.like("eno", eno);
+            } else {
+                map.remove("eno");
             }
 
+            String sprovince = (String) map.get("sprovince");
+            if (!StringUtils.isBlank(sprovince)) {
+                wrapper.eq("sprovince", sprovince);
+            } else {
+                map.remove("sprovince");
+            }
+
+            String scity = (String) map.get("scity");
+            if (!StringUtils.isBlank(scity)) {
+                wrapper.eq("scity", scity);
+            } else {
+                map.remove("scity");
+            }
+
+            String scounty = (String) map.get("scounty");
+            if (!StringUtils.isBlank(scounty)) {
+                wrapper.eq("scounty", scounty);
+            } else {
+                map.remove("scounty");
+            }
+
+            //String raddFlag = (String) map.get("raddFlag");
+            String rprovince = (String) map.get("rprovince");
+            if (!StringUtils.isBlank(rprovince) ) {
+                wrapper.eq("rprovince", rprovince);
+            } else {
+                map.remove("rprovince");
+            }
+
+            String rcity = (String) map.get("rcity");
+            if (!StringUtils.isBlank(rcity) ) {
+                wrapper.eq("rcity", rcity);
+            } else {
+                map.remove("rcity");
+            }
+
+            String rcounty = (String) map.get("rcounty");
+            if (!StringUtils.isBlank(rcounty)) {
+                wrapper.eq("rcounty", rcounty);
+            } else {
+                map.remove("rcounty");
+            }
         }
-        Page<BlogArticle> pageData = blogArticleService.selectDetailArticle(map,new Page<>(page,limit));
+        Page<Eno> pageData = enoService.selectPage(new Page<Eno>(page, limit), wrapper);
         layerData.setData(pageData.getRecords());
         layerData.setCount(pageData.getTotal());
         return layerData;
     }
 
     @GetMapping("add")
-    public String add(){
+    public String add() {
         return "/admin/ebag/eno/add";
     }
 
@@ -115,64 +118,89 @@ public class EnoController extends BaseController{
     @PostMapping("add")
     @SysLog("保存快递单号数据")
     @ResponseBody
-    public RestResponse add(Eno eno){
+    public RestResponse add(Eno eno) {
 
-        enoService.saveEno(eno);
+        enoService.saveOrUpdateEno(eno);
         return RestResponse.success();
     }
 
-    @GetMapping("edit")
-    public String edit(Long id,Model model){
 
+    @GetMapping("edit")
+    public String edit(Long id, Model model) {
+
+        /**
+         * 编辑Eno对象之前，查询出来放到页面中显示
+         */
+        Eno eno = enoService.selectById(id);
+        model.addAttribute("eno", eno);
         return "/admin/ebag/eno/edit";
     }
 
     @RequiresPermissions("ebag:eno:edit")
     @PostMapping("edit")
     @ResponseBody
-    @SysLog("保存编辑博客内容数据")
-    public RestResponse edit(@RequestBody BlogArticle blogArticle){
-        if(null == blogArticle.getId() || 0 == blogArticle.getId()){
-            return RestResponse.failure("ID不能为空");
+    @SysLog("保存编辑快递编号数据")
+    public RestResponse edit(Eno eno) {
+        if (null == eno.getId()) {
+            return RestResponse.failure("快递单号不能为空");
         }
-        if(StringUtils.isBlank(blogArticle.getTitle())){
-            return RestResponse.failure("标题不能为空");
-        }
-        if(StringUtils.isBlank(blogArticle.getContent())){
-            return RestResponse.failure("内容不能为空");
-        }
-        if(blogArticle.getSort() == null){
-            return RestResponse.failure("排序值不能为空");
-        }
-        blogArticleService.saveOrUpdateArticle(blogArticle);
-        blogArticleService.removeArticleTags(blogArticle.getId());
-        if(blogArticle.getBlogTags() != null && blogArticle.getBlogTags().size()>0){
-            Map<String,Object> map = Maps.newHashMap();
-            map.put("articleId",blogArticle.getId());
-            map.put("tags",blogArticle.getBlogTags());
-            blogArticleService.saveArticleTags(map);
-        }
+
+        enoService.saveOrUpdateEno(eno);
         return RestResponse.success();
     }
+
+
+
+    @GetMapping("printEno")
+    public String printEno(Long id, Model model) {
+
+        /**
+         * 编辑Eno对象之前，查询出来放到页面中显示
+         */
+        Eno eno = enoService.selectById(id);
+        model.addAttribute("eno", eno);
+        return "/admin/ebag/eno/printEno";
+    }
+
+
+    @RequiresPermissions("ebag:eno:printEno")
+    @PostMapping("printEno")
+    @ResponseBody
+    @SysLog("打印出单数据")
+    public RestResponse printEno(Eno eno) {
+        if (null == eno.getId()) {
+            return RestResponse.failure("快递单号不能为空");
+        }
+
+        enoService.saveOrUpdateEno(eno);
+        return RestResponse.success();
+    }
+
+    @GetMapping("printEnoInfo")
+    public String printEnoInfo(Long id, Model model) {
+
+        /**
+         * 编辑Eno对象之前，查询出来放到页面中显示
+         */
+        Eno eno = enoService.selectById(id);
+        model.addAttribute("eno", eno);
+        return "/admin/ebag/eno/printEnoInfo";
+    }
+
+
 
     @RequiresPermissions("ebag:eno:delete")
     @PostMapping("delete")
     @ResponseBody
-    @SysLog("删除博客内容数据")
-    public RestResponse delete(@RequestParam(value = "id",required = false)Long id){
-        if(null == id || 0 == id){
+    @SysLog("删除快递单号数据")
+    public RestResponse delete(@RequestParam(value = "id", required = false) Long id) {
+        if (null == id || 0 == id) {
             return RestResponse.failure("ID不能为空");
         }
-        BlogArticle blogArticle = blogArticleService.selectById(id);
-        blogArticle.setDelFlag(true);
-        blogArticleService.saveOrUpdateArticle(blogArticle);
+        Eno eno = enoService.selectById(id);
+        eno.setDelFlag(true);
+        enoService.saveOrUpdateEno(eno);
         return RestResponse.success();
     }
 
-    @GetMapping("createIndex")
-    @ResponseBody
-    public RestResponse createIndex() {
-        blogArticleService.createArticlIndex();
-        return RestResponse.success();
-    }
 }

@@ -28,7 +28,7 @@ public interface EnoService extends IService<Eno> {
      * 新增标签
      * @param eno
      */
-    void saveEno(Eno eno);
+    void saveOrUpdateEno(Eno eno);
 
     /**
      * 获取所有标签

@@ -61,4 +61,7 @@ public class BaseController {
 
 	@Autowired
 	protected UploadInfoService uploadInfoService;
+
+	@Autowired
+	protected EnoService enoService;
 }

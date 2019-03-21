@@ -32,9 +32,11 @@ public class EnoServiceImpl extends ServiceImpl<EnoDao, Eno> implements EnoServi
         return null;
     }
 
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void saveEno(Eno eno) {
-        insert(eno);
+    public void saveOrUpdateEno(Eno eno) {
+        insertOrUpdate(eno);
     }
 
     @Override
@@ -54,6 +56,8 @@ public class EnoServiceImpl extends ServiceImpl<EnoDao, Eno> implements EnoServi
 
     @Override
     public Page<Eno> selectEnoPage(Map<String, Object> map, Page<Eno> page) {
+
+
         return null;
     }
 
