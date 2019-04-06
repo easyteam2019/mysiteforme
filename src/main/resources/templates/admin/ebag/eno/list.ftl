@@ -254,7 +254,6 @@
 
         form.on("submit(searchForm)",function(data){
 
-            alert(JSON.stringify(data.field));
             t.where = data.field;
             table.reload('test', t);
             return false;

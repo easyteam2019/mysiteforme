@@ -50,7 +50,7 @@ public class EnoController extends BaseController {
         Map<String, Object> map = WebUtils.getParametersStartingWith(request, "s_");
         LayerData<Eno> layerData = new LayerData<>();
         EntityWrapper<Eno> wrapper = new EntityWrapper<>();
-        //wrapper.eq("del_flag",false);
+        wrapper.eq("del_flag",false);
         if (!map.isEmpty()) {
             String eno = (String) map.get("eno");
             if (StringUtils.isNotBlank(eno)) {
@@ -80,7 +80,6 @@ public class EnoController extends BaseController {
                 map.remove("scounty");
             }
 
-            //String raddFlag = (String) map.get("raddFlag");
             String rprovince = (String) map.get("rprovince");
             if (!StringUtils.isBlank(rprovince) ) {
                 wrapper.eq("rprovince", rprovince);
@@ -102,6 +101,7 @@ public class EnoController extends BaseController {
                 map.remove("rcounty");
             }
         }
+        wrapper.orderBy("createDate",false);
         Page<Eno> pageData = enoService.selectPage(new Page<Eno>(page, limit), wrapper);
         layerData.setData(pageData.getRecords());
         layerData.setCount(pageData.getTotal());

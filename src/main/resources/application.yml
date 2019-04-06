@@ -3,6 +3,7 @@ server:
     port: 80
     tomcat:
       uri-encoding: UTF-8
+    #context-path: /ebag
 spring:
   #激活哪一个环境的配置文件
   profiles:
@@ -95,9 +96,9 @@ spring:
   #redis配置
   redis:
       database: 1
-      host: 127.0.0.1
+      host: 47.96.77.156
       port: 6379
-      password:      # 密码（默认为空）
+      password: redis2019  # 密码（默认为空）
       timeout: 6000  # 连接超时时长（毫秒）
       pool:
         max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
@@ -106,9 +107,9 @@ spring:
         min-idle: 5       # 连接池中的最小空闲连接
   # 数据源配置
   datasource:
-    url: jdbc:mysql://localhost:3306/mysiteforme?useUnicode=true&characterEncoding=utf8&useSSL=false&tinyInt1isBit=true
+    url: jdbc:mysql://47.96.77.156:3306/mysiteforme?useUnicode=true&characterEncoding=utf8&useSSL=false&tinyInt1isBit=true
     username: root
-    password: root
+    password: root2019
 
 #日志
 logging:
@@ -203,10 +204,6 @@ source-code-zipfile:  /opt/源码.rar
 #搜索文件生成包的位置
 #阿里云路径
 lucence-dic : /opt/lucence
-
-
-
-
 
 
 

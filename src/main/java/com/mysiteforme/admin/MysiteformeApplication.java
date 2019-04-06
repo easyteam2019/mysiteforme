@@ -13,13 +13,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.mysiteforme.admin.dao")
 public class MysiteformeApplication extends SpringBootServletInitializer {
 
-//这是项目入口!!
-//	@Override
-//	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-//		return application.sources(MysiteformeApplication.class);
-//	}
+    //这是项目入口!!(打包war需要开放这个接口)
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(MysiteformeApplication.class);
+	}
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(MysiteformeApplication.class, args);
 	}
 }
